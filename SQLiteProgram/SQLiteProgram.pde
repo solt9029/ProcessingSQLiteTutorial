@@ -6,11 +6,11 @@ void setup(){
   size(400,400);
   db = new SQLite( this, "weather.db" ); // open DB file
   if ( db.connect() ) {
-    String sql="SELECT month,day,weather FROM weather_table";
-    sql+=" where prefecture_id=26 and year=2009";
+    String sql="SELECT month,avg(highest) FROM weather_table";
+    sql+=" group by month";
     db.query(sql);
     while (db.next ()) {
-      println(db.getInt("month")+"/"+db.getInt("day")+":"+db.getString("weather"));
+      println(db.getInt("month")+"月の最高気温平均は"+db.getFloat("avg(highest)")+"度です");
     }
   }
 }
